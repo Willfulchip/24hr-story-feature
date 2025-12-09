@@ -1,0 +1,155 @@
+.story-display-wrapper {
+   position: fixed;
+   z-index: 1000;
+   left: 0;
+   top: 0;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, 0.4);
+   backdrop-filter: blur(2px);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   animation: fade-in 0.5s;
+}
+
+.story-display-wrapper.close {
+   animation: fade-out 0.5s forwards;
+}
+
+.story-display-container {
+   background-color: #fff;
+   border-radius: 8px;
+   width: 600px;
+   height: 450px;
+   padding: 1rem;
+   position: relative;
+}
+
+.story-display {
+   width: 100%;
+   height: 90%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 1rem;
+
+   &--info {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      gap: 2rem;
+   }
+
+   &--img {
+      width: 100%;
+      height: 100%;
+      padding: 2rem 1rem;
+      object-fit: contain;
+   }
+}
+
+.progress-bar-container {
+   position: absolute;
+   top: 10px;
+   left: 0;
+   width: 100%;
+   padding: 0 1rem;
+   gap: 5px;
+   display: flex;
+   z-index: 10;
+}
+
+.progress-item {
+   flex: 1;
+   height: 3px;
+   background-color: rgba(0, 0, 0, 0.3);
+   overflow: hidden;
+   border-radius: 2px;
+
+   .progress-fill {
+      height: 100%;
+      background-color: #fff;
+      width: 0;
+   }
+
+   &.completed {
+      .progress-fill {
+         width: 100%;
+      }
+   }
+
+   &.active {
+      .progress-fill {
+         animation: progressAnimation 3s linear forwards;
+      }
+   }
+
+   &.waiting {
+      .progress-fill {
+         width: 0;
+      }
+   }
+}
+
+.pagination-container {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.prev-story-btn {
+   margin-left: 3rem;
+}
+
+.next-story-btn {
+   margin-right: 3rem;
+}
+
+@keyframes progressAnimation {
+   0% {
+      width: 0%;
+   }
+   100% {
+      width: 100%;
+   }
+}
+
+@media (max-width: 768px) {
+   .story-display-container {
+      width: 100%;
+      height: 100%;
+      min-height: 40vh;
+      padding: 1rem 2rem;
+   }
+
+   .story-display {
+      padding: 0 2rem;
+      justify-content: flex-start;
+
+      &--info {
+         margin-top: 5rem;
+         font-size: 4rem;
+         position: absolute;
+      }
+   }
+
+   .progress-bar-container {
+      top: 15px;
+   }
+
+   .progress-item {
+      height: 8px;
+   }
+
+   .prev-story-btn,
+   .next-story-btn {
+      display: none;
+   }
+}
