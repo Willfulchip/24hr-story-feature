@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { Button } from 'antd';
 import {
@@ -30,18 +30,8 @@ export function StoryViewer({
       return () => clearTimeout(timer);
    }, [currentIndex, modalOpen, story]);
 
-   const [startX, setStartX] = useState(0);
-   const [endX, setEndX] = useState(0);
-
-   const diff = useMemo(() => startX - endX, [startX, endX]);
-
-   useEffect(() => {
-      if (diff < -150) {
-         handlePrevStory();
-      } else if (diff > 150) {
-         handleNextStory();
-      }
-   }, [diff]);
+   const startX = useRef(0);
+   const endX = useRef(0);
 
    if (!modalOpen || !story) return;
 
@@ -50,11 +40,23 @@ export function StoryViewer({
    const diffHours = Math.floor(diffMins / 60);
 
    function handleTouchStart(e) {
-      setStartX(e.touches[0].clientX);
+      startX.current = e.touches[0].clientX;
    }
 
    function handleTouchEnd(e) {
-      setEndX(e.changedTouches[0].clientX);
+      endX.current = e.changedTouches[0].clientX;
+      handleSwiperLogic();
+   }
+
+   function handleSwiperLogic() {
+      const diff = startX.current - endX.current;
+      const threshold = 100;
+
+      if (diff > threshold) {
+         handleNextStory();
+      } else if (diff < -threshold) {
+         handlePrevStory();
+      }
    }
 
    function handleAnimationEnd() {
@@ -131,7 +133,6 @@ export function StoryViewer({
                      <Button
                         icon={<CloseOutlined />}
                         onClick={() => setIsClosing(true)}
-                        style={{}}
                      ></Button>
                   </div>
 
