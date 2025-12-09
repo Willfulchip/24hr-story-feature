@@ -50,7 +50,7 @@ export function StoryViewer({
 
    function handleSwiperLogic() {
       const diff = startX.current - endX.current;
-      const threshold = 100;
+      const threshold = 50;
 
       if (diff > threshold) {
          handleNextStory();
