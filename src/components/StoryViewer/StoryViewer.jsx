@@ -57,14 +57,15 @@ export function StoryViewer({
       } else if (diff < -threshold) {
          handlePrevStory();
       }
+
+      startX.current = 0;
+      endX.current = 0;
    }
 
    function handleAnimationEnd() {
       if (isClosing) {
          setModalOpen(false);
          setIsClosing(false);
-         setStartX(0);
-         setEndX(0);
       }
    }
 
